@@ -26,15 +26,21 @@ This makes it possible to guess that the resource associated to Amsterdam is <ht
 The service <http://linker.sindice.com> provided by the semantic search engine is an hosted version of SILK that let everyone create links without having to install SiLK locally.
 This is the reason why we will use this service in the remaining part of this chapter. Installing SiLK locally on a machine is not complicated though, we will come back to that a bit later.
 
-As an example, we will connect the categories found in ISIDORE [Isidore] to those of DBpedia [DBpedia]
+As an example, we will connect the categories found in [Isidore] to those of [DBpedia].
 
 
 ### Get an account
-
+The linker service can be found at <http://linker.sindice.com>, the home page at this address shows the number of links the platform generated so far and feeds for these links.
+Anyone can subscribe to the feeds and get the links. The linking specifications hosted on the linker are re-executed on a regular basis in order to cope with changes made in the datasets they interlink.
 ![The service provided at <http://linker.sindice.com>](imgs/linker-sindice.png)
+A click on "Sign in or register" leads to a variety of services that can be used to get an account on the linker. Whereas the links can be accessed without being logged in, this step in mandatory in order to submit new linking specifications. 
 ![Several authentication services are available](imgs/login-screen.png)
+The member area diplayed once logged in is a private space with data related to the connected user. From that space it is possible to see the result of the execution of the linking specifications.
+There is also a link to the workbench on which we will click next.
 ![The member area accessible once logged in](imgs/member-space.png)
+Although the linking specifications are created in XML using the SiLK notation, you will not have to start your favorite XML editor. SiLK comes with a workspace that facilitates the creation of these specification with a simple drag and drop mechanism. A click on the "Access workbench" button from the linker gets you to that workspace. It is relevant here to say that if SiLK is ran locally the exactly same workspace is provided. Everything that follows can thus be tested on the linker site as well as on any other machine.
 ![The workspace where the linking specifications are edited](imgs/workspace.png)
+You're ready to go!
 
 ### Identify what to link
 Before editing the linking specification let us step back to the datasets.
@@ -44,28 +50,28 @@ It is necessary to identify what will be linked.
 
 | Predicate | Object |
 |:----------|:-------|
-| [rdf:type](http://www.w3.org/1999/02/22-rdf-syntax-ns#type) | http://www.rechercheisidore.fr/class/BibliographicalResource |
-| [rdf:type](http://www.w3.org/1999/02/22-rdf-syntax-ns#type) | http://www.openarchives.org/ore/terms/Aggregation |
+| [rdf:type] | <http://www.rechercheisidore.fr/class/BibliographicalResource> |
+| [rdf:type] | <http://www.openarchives.org/ore/terms/Aggregation> |
 | [dcterms:language](http://purl.org/dc/terms/language) | http://lexvo.org/id/iso639-3/eng |
 | [ore:similarTo](http://www.openarchives.org/ore/terms/similarTo) | ID:REGARDS:63389 |
 | [dcterms:provenance](http://purl.org/dc/terms/provenance) | http://www.regards.cnrs.fr |
 | [dc:date](http://purl.org/dc/elements/1.1/date) | 2008 |
-| [dcterms:date](http://purl.org/dc/terms/date)   | 2008-01-01T00:00:00+02:00 |
-| [dcterms:date](http://purl.org/dc/terms/date)   | <http://www.archivesdefrance.culture.gouv.fr/gerer/classement/normes-outils/thesaurus/T4-46> |
+| [dcterms:date] | 2008-01-01T00:00:00+02:00 |
+| [dcterms:date] | <http://www.archivesdefrance.culture.gouv.fr/gerer/classement/normes-outils/thesaurus/T4-46> |
 | [dc:type](http://purl.org/dc/elements/1.1/type) | Article |
 | [sioc:topic] | <http://www.rechercheisidore.fr/subject/SHS:SCIPO> |
 | [sioc:topic] | <http://www.rechercheisidore.fr/subject/SHS:SOCIO> |
 | [sioc:topic] | <http://www.rechercheisidore.fr/subject/SHS:ECO>   |
-| [](http://purl.org/dc/elements/1.1/language 	Anglais
-| [](http://purl.org/dc/elements/1.1/source 	Contemporary (The) Pacific
-| [](http://purl.org/dc/terms/coverage 	http://sws.geonames.org/4034749/
-| [](http://www.openarchives.org/ore/terms/aggregates 	http://regards.in2p3.fr/fiche.php?id=63389
-| [](http://purl.org/dc/terms/identifier 	10670/1.2gbtg3
-| [](http://purl.org/dc/terms/identifier 	http://regards.in2p3.fr/fiche.php?id=63389
-| [](http://purl.org/dc/terms/title 	Wallis and Futuna. [en ligne]. Disponible sur Biblioshs
-| [](http://purl.org/dc/terms/type 	http://www.rechercheisidore.fr/ontology/art
-| [](http://www.rechercheisidore.fr/property/scope 	http://www.rechercheisidore.fr/subject/secondaires
-| [](http://www.openarchives.org/ore/terms/isAggregatedBy 	http://www.rechercheisidore.fr/resource/10670/2.i2m6vw
+| [dc:language](http://purl.org/dc/elements/1.1/language) | Anglais |
+| [dc:source](http://purl.org/dc/elements/1.1/source) | Contemporary (The) Pacific |
+| [dcterms:coverage](http://purl.org/dc/terms/coverage) | <http://sws.geonames.org/4034749/> |
+| [ore:aggregates](http://www.openarchives.org/ore/terms/aggregates) | <http://regards.in2p3.fr/fiche.php?id=63389> |
+| [dcterms:identifier](http://purl.org/dc/terms/identifier) | 10670/1.2gbtg3 |
+| [dcterms:identifier](http://purl.org/dc/terms/identifier) | <http://regards.in2p3.fr/fiche.php?id=63389> |
+| [dcterms:title](http://purl.org/dc/terms/title) | Wallis and Futuna. \[en ligne\]. Disponible sur Biblioshs |
+| [dcterms:type](http://purl.org/dc/terms/type) | <http://www.rechercheisidore.fr/ontology/art> |
+| <http://www.rechercheisidore.fr/property/scope> | <http://www.rechercheisidore.fr/subject/secondaires> |
+| [ore:isAggregatedBy](http://www.openarchives.org/ore/terms/isAggregatedBy) | <http://www.rechercheisidore.fr/resource/10670/2.i2m6vw> |
 
 
 <http://www.rechercheisidore.fr/subject/SHS:ECO>
@@ -110,8 +116,40 @@ http://www.w3.org/ns/prov#wasDerivedFrom 	http://en.wikipedia.org/wiki/Category:
 `?a/<http://rdfs.org/sioc/ns#topic>/<http://www.w3.org/2004/02/skos/core#prefLabel>[@lang='en']`
 
 
+### Prepare the task
 
-http://www.w3.org/2000/01/rdf-schema#seeAlso
+![Add DBpedia](imgs/add-dbpedia.png)
+
+![Add Isidore](imgs/add-isidore.png)
+
+<http://www.w3.org/2000/01/rdf-schema#seeAlso>
+
+![Create the task](imgs/create-task.png)
+
+### Edit the linkage rules
+
+![The rules editor](imgs/properties-loaded.png)
+
+![Linking specification](imgs/linking-specification.png)
+
+### Generate the links
+![Generate links](imgs/generate-links.png)
+
+
+![Send to SPARQL](imgs/send-to-sparql.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 [1]: http://www.ontologymatching.org/projects.html
 [2]: http://oaei.ontologymatching.org/
@@ -119,6 +157,8 @@ http://www.w3.org/2000/01/rdf-schema#seeAlso
 [4]: http://aksw.org/Projects/LIMES.html
 [Isidore]: http://www.rechercheisidore.fr/
 [DBpedia]: http://dbpedia.org/About
-[sioc:topic]: http://rdfs.org/sioc/ns#topic
 
+[sioc:topic]: http://rdfs.org/sioc/ns#topic
+[dcterms:date]: http://purl.org/dc/terms/date
+[rdf:type]: http://www.w3.org/1999/02/22-rdf-syntax-ns#type
 
