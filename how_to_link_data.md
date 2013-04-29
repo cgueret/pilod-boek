@@ -26,7 +26,7 @@ This makes it possible to guess that the resource associated to Amsterdam is <ht
 The service <http://linker.sindice.com> provided by the semantic search engine is an hosted version of SILK that let everyone 
 
 
-[1] http://www.ontologymatching.org/projects.html
-[2] http://oaei.ontologymatching.org/
-[3] http://www4.wiwiss.fu-berlin.de/bizer/silk/
-[4] http://aksw.org/Projects/LIMES.html
+[1]: http://www.ontologymatching.org/projects.html
+[2]: http://oaei.ontologymatching.org/
+[3]: http://www4.wiwiss.fu-berlin.de/bizer/silk/
+[4]: http://aksw.org/Projects/LIMES.html
