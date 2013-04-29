@@ -13,11 +13,14 @@ IMGS := add-dbpedia.png \
 	send-to-sparql.png \
 	workspace.png
 LOW_RES_IMG := $(addprefix ./imgs/,${IMGS})
+BUILDID=$(shell date +%Y%m%d)
 .PHONY: all ${LOW_RES_IMG}
 
-all: book-docx
+all: books
 
-${LOW_RES_IMG}: ./imgs/%: ; mkdir -p ./imgs; convert imgs-hires/$* -resize 60% ./imgs/$*
+${LOW_RES_IMG}: ./imgs/%: ; mkdir -p ./imgs; convert imgs-hires/$* -resize 35% ./imgs/$*
 
-book-docx: ${LOW_RES_IMG}
-	pandoc -o test.docx how_to_link_data.md 
+books: ${LOW_RES_IMG}
+	pandoc -o how-to-link-data_${BUILDID}.docx how_to_link_data.md
+	pandoc -o how-to-link-data_${BUILDID}.odt how_to_link_data.md
+
