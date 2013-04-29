@@ -25,6 +25,8 @@ This makes it possible to guess that the resource associated to Amsterdam is <ht
 
 The service <http://linker.sindice.com> provided by the semantic search engine is an hosted version of SILK that let everyone 
 
+![The service provided at <http://linker.sindice.com>](imgs/linker-sindice.png)
+
 
 [1]: http://www.ontologymatching.org/projects.html
 [2]: http://oaei.ontologymatching.org/
