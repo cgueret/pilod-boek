@@ -10,7 +10,7 @@ particular attention to the Linked Open Data publication principles advocated
 by the W3C.
 
 ## Publishing Open Data
-According to the site <opendefinition.org>, Open Data is "A piece of data or content is open if anyone is free to use, reuse, and redistribute it — subject only, at most, to the requirement to attribute and/or share-alike." [OpenDefinition]. This implies no specific way to publish the data, it also gives no clear definition as to what _data_ is. Both points are left up to the discretion of the data publisher.
+According to the site <http://opendefinition.org>, Open Data is "A piece of data or content is open if anyone is free to use, reuse, and redistribute it — subject only, at most, to the requirement to attribute and/or share-alike." [OpenDefinition]. This implies no specific way to publish the data, it also gives no clear definition as to what _data_ is. Both points are left up to the discretion of the data publisher.
 
 In order to share his open data on the Web, a publisher will first make his data ready and then put it somewhere where it can be found and downloaded.
 
@@ -36,77 +36,83 @@ The answer to these issues lies in the providing of so called REST application p
 Offering an API and semantically annotated data dumps, along with a proper HTML page describing the data provided and the interaction with its API is currently recognised as a good practice satisfying both the need of data consumers and publishers. In this picture Linked Data stands as a way to unify the publication of the data to its semantics and to its API. Data published as Linked Data uses the Web as the API for accessing it and allows for the publication of both the raw data and its semantics within the same platform.    
 
 ## Publishing Linked Open Data
+Publishing Linked Data boils down to using the Web as a plaform. It is publishing data _in_ the Web rather than _on_ the Web. For this reason, HTTP URIs similar to those used for Web documents are used to identify resources [DesignIssues]. The resources are most of the time equivalent to the data entries found in CSV documents (the rows of the files). When links are established among the different resources the data is said to be "5 stars" [FiveStarData]. Linked Open Data is commonly used to speak about Open Data published according to the Linked Data publication principles.
 
-According to the Linked Data publication scheme [1,2], this means 
-describing things that have an URI associated to them. The description should 
-be provided in RDF when the URI is dereferenced and it should also contain 
-links to other URIs.
+There exists many good references to get to know more about the publication of 5-star data and tools to make this happen. Some of these will be covered in other chapters of this book. In the following two sections we will focus on some basic aspects around the publication of Linked Data: provide de-referencable URIs to the resources and making additional APIs available to query the data.
 
-Note that document containing the description given to the resource and the 
-resource itself are two different things. This is a rather important thing to 
-keep in mind when picking up a architecture for serving that description. Let's 
-see how this is implemented in DBpedia.org ...
+### Create de-referencable resources
+To get a grasp of what making de-referencable URI for resources means let us have a look at how DBpedia does it. DBpedia is a Linked Data data set which is composed from factual information extracted from Wikipedia. One part of this data contain information such as the mayor name and the population size of cities in the world. If that data would be published as CSV, this part of the data set would be one huge "cities.csv" with one city per row and all the information (mayor name, population size, ...) dispatched in as many columns. 
 
-We use the tool "curl" to get the RDF description (in the RDF/XML format) about the resource with the URI “http://dbpedia.org/resource/Amsterdam” :
+One such row would contain information about "Amsterdam" in the Netherlands. In DBpedia, Amsterdam gets the identifier "http://dbpedia.org/resource/Amsterdam" rather than an abstract code (e.g. "2759793") or a raw name (e.g. "Amsterdam"). 
+The main drawback of using a code is that this code is unique only within a given information system. Collisions are expected to raise when several files using different internal attribution schemes are brought together. Raw names are most often too ambiguous to be meaningful. In the present case "Amsterdam" should be replaced by "Amsterdam, Netherlands" to bring more context but this may not be enough in all the cases as some city names are sometimes re-used across the same country. It must be noted URNs solve the problem of colliding code spaces but does not provide de-referencability directly. These URNs, such as DOI, have to be coupled with a de-referencing service to get to the resource and receive the information associated to it. Compared to abstract codes, raw names and URNs, the usage of HTTP URI provides both unique and de-referencable identifiers to data items.
 
-```curl -I -L -H "Accept: application/rdf+xml" http://dbpedia.org/resource/Amsterdam```
+The command line tool "curl" can very conveniently play the role of a software getting the data about Amsterdam. The following line asks for the RDF data about Amsterdam serialised in an XML file:
 
-The answer from the server is that the description associated to this identifier is located at another URI. That information is provided along with other useful information:
+```bash
+curl -I -L -H "Accept: application/rdf+xml" http://dbpedia.org/resource/Amsterdam
+```
 
+The answer from the server is that the description associated to this identifier
+is located at another URI. That information is provided along with other useful 
+information:
+
+```bash
 HTTP/1.1 303 See Other
-
 Date: Mon, 07 Jan 2013 10:18:36 GMT
-
 Content-Type: application/rdf+xml; qs=0.95
-
 Content-Length: 0
-
 Connection: keep-alive
-
 Server: Virtuoso/06.04.3132 (Linux) x86_64-generic-linux-glibc212-64  VDB
-
 Accept-Ranges: bytes
-
 TCN: choice
-
 Vary: negotiate,accept
-
 Content-Location: /data/Amsterdam.xml
-
 Link: <http://mementoarchive.lanl.gov/dbpedia/timegate/http://dbpedia.org/resource/Amsterdam>; rel="timegate"
-
 Location: http://dbpedia.org/data/Amsterdam.xml
+```
 
+Following the link that has been indicated to it, curl will open the XML page 
+and get the following associated information. Among all the data provided, there 
+are a number of links to other serialisation formats for the RDF data (for
+instance, N3) and also links to other encodings for the structured data (for
+instance, JSON).
 
-Following the link that has been indicated to it, Curl will open the XML page and get the following associated information. Among all the data provided, there are a number of links to other serialisation formats for the RDF data (for instance, N3) and also links to other encodings for the structured data (for instance, JSON).
-
+```bash
 HTTP/1.1 200 OK
-
 Date: Mon, 07 Jan 2013 10:18:37 GMT
-
 Content-Type: application/rdf+xml; charset=UTF-8
-
 Content-Length: 578553
-
 Connection: keep-alive
-
 Vary: Accept-Encoding
-
 Server: Virtuoso/06.04.3132 (Linux) x86_64-generic-linux-glibc212-64  VDB
-
 Accept-Ranges: bytes
-
 Expires: Mon, 14 Jan 2013 10:18:36 GMT
-
-Link: <http://dbpedia.org/data/Amsterdam.n3>; rel="alternate"; type="text/n3"; title="Structured Descriptor Document (N3/Turtle format)", <http://dbpedia.org/data/Amsterdam.json>; rel="alternate"; type="application/json"; title="Structured Descriptor Document (RDF/JSON format)", <http://dbpedia.org/data/Amsterdam.atom>; rel="alternate"; type="application/atom+xml"; title="OData (Atom+Feed format)", <http://dbpedia.org/data/Amsterdam.jsod>; rel="alternate"; type="application/odata+json"; title="OData (JSON format)", <http://dbpedia.org/page/Amsterdam>; rel="alternate"; type="text/html"; title="XHTML+RDFa", <http://dbpedia.org/resource/Amsterdam>; rel="http://xmlns.com/foaf/0.1/primaryTopic", <http://dbpedia.org/resource/Amsterdam>; rev="describedby", <http://mementoarchive.lanl.gov/dbpedia/timegate/http://dbpedia.org/data/Amsterdam.xml>; rel="timegate"
-
+Link: <http://dbpedia.org/data/Amsterdam.n3>; rel="alternate"; 
+type="text/n3"; title="Structured Descriptor Document (N3/Turtle format)", 
+<http://dbpedia.org/data/Amsterdam.json>; rel="alternate"; 
+type="application/json"; title="Structured Descriptor Document (RDF/JSON format)", 
+<http://dbpedia.org/data/Amsterdam.atom>; rel="alternate"; 
+type="application/atom+xml"; title="OData (Atom+Feed format)", 
+<http://dbpedia.org/data/Amsterdam.jsod>; rel="alternate";
+type="application/odata+json"; title="OData (JSON format)", 
+<http://dbpedia.org/page/Amsterdam>; rel="alternate";
+type="text/html"; title="XHTML+RDFa", 
+<http://dbpedia.org/resource/Amsterdam>; rel="http://xmlns.com/foaf/0.1/primaryTopic", 
+<http://dbpedia.org/resource/Amsterdam>; rev="describedby", 
+<http://mementoarchive.lanl.gov/dbpedia/timegate/http://dbpedia.org/data/Amsterdam.xml>; rel="timegate"
 X-SPARQL-default-graph: http://dbpedia.org
+```
 
-What happens is that curl is asking for information about the resource “Amsterdam” and negotiates the type of content to be returned. This process is also depicted on the following picture from [3]
+What happens is that curl is asking for information about the resource and negotiates the type of content to be returned. This process is also depicted on the following picture from [UK]:
 
-It is a good practice to add a suffix indicating the nature of the serialisation being returned (“.rdf”, “.n3”, etc) and not to use any suffix for the name of the resource itself. All the different serialisations can be served at different locations, it is a perfectly valid approach to have them being served by different servers.
-More information about the redirect “trick” and de-refencing to different formats can be found online. There are tools that can be put on top of a SPARQL endpoint to take care of dereferencing the entities properly and do the redirect. The two most popular are Pubby and Pages.
+![Content negotiation](imgs/resources-content-negotiation.png)
 
+It is a good practice to add a suffix indicating the nature of the serialisation being returned (".rdf", ".n3", etc) and not to use any suffix for the name of the resource itself. All the different serialisations can be served at different locations, it is a perfectly valid approach to have them being served by different servers.
+More information about the redirect "trick" and de-referencing to different formats can be found online. There are tools that can be used to take care of dereferencing the entities properly and do the redirect (e.g. [Pubby], [Pages], [D2RQ]).
+
+### Provide additional APIs
+
+http://data.ordnancesurvey.co.uk/datasets/os-linked-data
 
 
 [OpenDefinition]: http://opendefinition.org/
@@ -120,4 +126,10 @@ More information about the redirect “trick” and de-refencing to different fo
 [PublicData.eu]: http://www.publicdata.eu/
 [ProgrammableWeb]: http://www.programmableweb.com/
 [GeoNames]: http://www.geonames.org/
+[DesignIssues]: http://www.w3.org/DesignIssues/LinkedData.html
+[FiveStarData]: http://5stardata.info/
+[UK]: http://data.gov.uk/resources/uris
+[Pubby]: http://wifo5-03.informatik.uni-mannheim.de/pubby/ 
+[Pages]: http://csarven.ca/statistical-linked-dataspaces#linked-data-pages
+[D2RQ]: http://d2rq.org/
 
