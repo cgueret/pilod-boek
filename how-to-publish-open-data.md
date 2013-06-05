@@ -111,9 +111,38 @@ It is a good practice to add a suffix indicating the nature of the serialisation
 More information about the redirect "trick" and de-referencing to different formats can be found online. There are tools that can be used to take care of dereferencing the entities properly and do the redirect (e.g. [Pubby], [Pages], [D2RQ]).
 
 ### Provide additional APIs
+Providing access to the data via de-referencing URIs makes it possible for 
+applications to get all the data related to a particular resource in a easy way.
+It also makes it possible to cross reference the same unique identifier among
+different data sets. This however only cover parts of the need of applications. 
 
-http://data.ordnancesurvey.co.uk/datasets/os-linked-data
+A basic need such a searching for a particular resource within a data set is not covered by just making 5-star data. Just like publishing a Web site does not make it possible to search for its content. Linked Open Data sets have their search engine in the name of [Sindice]. Just like Google, Bing and many others Sindice indexes the content of Linked Open Data sets and provide a search feature using this index. The result is a list of resources matching a particular keyword list entered by the users of the portal.
 
+In addition to relay on external crawlers, data publishers can provide a SPARQL end point to their LOD. SPARQL is a query language optimised for graph data bases storing RDF data. DBpedia offers a SPARQL endpoint available at "http://dbpedia.org/sparql". Using this service and the following SPARQL query it is possible to ask for all the resources that correspond to a city with the english name "Amsterdam":
+
+```
+select ?city where {
+?city a <http://dbpedia.org/ontology/Place>.
+?city <http://xmlns.com/foaf/0.1/name> "Amsterdam"@en.
+}
+``` 
+The result shows that there are several "Amsterdam" in the world:
+
+| city      |
+|:----------|
+| <http://dbpedia.org/resource/Amsterdam> |
+| <http://dbpedia.org/resource/Amsterdam,_California> |
+| <http://dbpedia.org/resource/Amsterdam_(Amtrak_station)> |
+| <http://dbpedia.org/resource/Amsterdam,_New_York_(city)> |
+| <http://dbpedia.org/resource/Amsterdam,_New_York_(town)> |
+| <http://dbpedia.org/resource/Amsterdam,_Virginia> |
+
+We can see on these results that Wikipedia extends "Amsterdam" with additional qualifications to disambiguate the raw label. 
+
+Another interesting thing to look at is the different output format provided by the interface for entering the SPARQL query. Results can be delivered in a wide range of encoding, from RDF/XML files to JSON documents.
+SPARQL is a query language that make is possible to express any kind of query over the data. In contrary to other query protocols such as SQL, its transport layer is HTTP. This make it possible to re-use caching and access control available for Web documents also for SPARQL requests, it also facilitates implementing SPARQL libraries. 
+
+But SPARQL is not the only API that can be deployed on top of data published as Linked Data. As showcased by the Ordnance Survey [OrdnanceSurveyAPI], combining de-referencing with SPARQL and a set of REST API is perfectly achievable and provide all the flexibility data consumers may require.
 
 [OpenDefinition]: http://opendefinition.org/
 [SDF]: http://www.dataprotocols.org/en/latest/simple-data-format.html
@@ -132,4 +161,5 @@ http://data.ordnancesurvey.co.uk/datasets/os-linked-data
 [Pubby]: http://wifo5-03.informatik.uni-mannheim.de/pubby/ 
 [Pages]: http://csarven.ca/statistical-linked-dataspaces#linked-data-pages
 [D2RQ]: http://d2rq.org/
-
+[Sindice]: http://www.sindice.com/
+[OrdnanceSurveyAPI]: http://data.ordnancesurvey.co.uk/datasets/os-linked-data
