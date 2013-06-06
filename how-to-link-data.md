@@ -1,3 +1,8 @@
+% How to: Linking resources from two datasets
+% Christophe Guéret <christophe.gueret@dans.knaw.nl>
+% June 6, 2013
+
+
 # How to: Linking resources from two datasets
 The Linked Data publication principles define a way to share data while using the Web as a publication platform. Just like the Web is used to publish documents it can also be used to publish factual data. URIs are used to design resources with are described with property/values pairs and connected to other resources with typed links. These links between resources makes it possible to browse Linked Data and jump from resource to resource. They are also used to enrich datasets by connecting the resources with related datasets. But the best part is that _anyone_ can create and publish these links!
 

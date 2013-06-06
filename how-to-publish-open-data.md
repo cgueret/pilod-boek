@@ -1,4 +1,8 @@
-# How to publish Open Data on the Web
+% Publishing Open Data on the Web
+% Christophe Guéret <christophe.gueret@dans.knaw.nl>
+% June 6, 2013
+
+# Publishing Open Data on the Web
 There is an increasing interest towards publishing data open on the Web. 
 Opening what used to be closed data brings a lots of opportunities in terms of 
 social and economical development, participatory governance and improvement of 
